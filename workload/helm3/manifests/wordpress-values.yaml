@@ -9,7 +9,7 @@ wordpressPassword: "demo!23"
 service:
   type: ClusterIP
   ## HTTP Port
-  ##
+  ## Changed now
   port: 80
   ## HTTPS Port
   ##
@@ -27,6 +27,7 @@ ingress:
   ## Set to true to enable ingress record generation
   ##
   enabled: true
+  ## Hostname address
   hostname: wordpress.example.com
   annotations:
     kubernetes.io/ingress.class: nginx
