@@ -32,6 +32,7 @@ steps:
     }
     echo "Here"
     wl_tmp=`${HOME}/rctl get workload -o json | jq '.result[]|.name' |cut -d'"' -f2`
+    echo "Njan" $ wl_tmp
     WL_TMP_ARRAY=( $wl_tmp )
     set +e
     echo "Second"
