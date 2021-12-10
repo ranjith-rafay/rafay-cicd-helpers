@@ -37,6 +37,7 @@ steps:
     echo "Second"
     LookupWorkload $WORKLOAD_NAME "${WL_TMP_ARRAY[@]}"
     echo $WORKLOAD_NAME
+    echo ${WL_TMP_ARRAY[@]}
     if [ $? -eq 1 ]; then
      set -e
      ${HOME}/rctl create workload $(workload_yaml)
