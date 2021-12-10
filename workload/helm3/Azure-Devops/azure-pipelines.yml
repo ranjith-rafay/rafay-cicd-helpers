@@ -31,7 +31,7 @@ steps:
       return 1
     }
     echo "Here"
-    wl_tmp=`rctl get workload -o json | jq '.result[]|.name' |cut -d'"' -f2`
+    wl_tmp=`${HOME}/rctl get workload -o json | jq '.result[]|.name' |cut -d'"' -f2`
     WL_TMP_ARRAY=( $wl_tmp )
     set +e
     echo "Second"
@@ -39,9 +39,9 @@ steps:
     echo $WORKLOAD_NAME
     if [ $? -eq 1 ]; then
      set -e
-     ./rctl create workload $(workload_yaml)
+     ${HOME}/rctl create workload $(workload_yaml)
     else
-     ./rctl update workload $(workload_yaml)
+     ${HOME}/rctl update workload $(workload_yaml)
     fi
     ${HOME}/rctl publish workload $(workload)
     workload_status="Not Ready"
