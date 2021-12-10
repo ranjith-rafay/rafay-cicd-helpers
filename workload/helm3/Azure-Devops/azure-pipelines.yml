@@ -8,7 +8,7 @@ trigger:
 - master
 
 variables:
-  workload_yaml: ./workload/helm3/manifests/workload-spec.yaml
+  workload_yaml: ../workload/helm3/manifests/workload-spec.yaml
   workload: wordpress-demo1
 
 pool:
@@ -23,7 +23,7 @@ steps:
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     chmod 0755 ${HOME}/rctl
     LookupWorkload () {
-      local workload match="$1"
+      local workload match="wordpress-demo1"
       shift
       for workload; do [[ "$workload" == "$match" ]] && return 0; done
       return 1
