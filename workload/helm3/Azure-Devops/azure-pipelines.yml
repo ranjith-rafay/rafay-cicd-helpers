@@ -25,7 +25,7 @@ steps:
     LookupWorkload () {
       local workload match="wordpress-demo1"
       shift
-      for workload; do [[ "$workload" == "$match" ]] && return 0; done
+      for workload; do [[ "$workload" == "$match" ]] && return 0; echo $workload, $match ; done
       echo $workload
       echo $match
       return 1
