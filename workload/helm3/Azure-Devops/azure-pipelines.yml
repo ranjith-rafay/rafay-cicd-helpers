@@ -30,16 +30,10 @@ steps:
       echo $match
       return 1
     }
-    echo "Here"
     wl_tmp=`${HOME}/rctl get workload -o json | jq '.result[]|.name' |cut -d'"' -f2`
-    echo "Njan" $wl_tmp
     WL_TMP_ARRAY=( $wl_tmp )
     set +e
-    echo "Second"
-    echo $WORKLOAD_NAME
-    echo ${WL_TMP_ARRAY[@]}
-    echo "third"
-    ${HOME}/rctl create workload $(workload_yaml)
+    ${HOME}/rctl create workload $(System.DefaultWorkingDirectory)/_ranjith-rafay_rafay-cicd-helpers/workload/helm3/manifests/workload-spec.yaml
     ${HOME}/rctl publish workload $(workload)
     workload_status="Not Ready"
     workload_status_iterations=1
@@ -47,8 +41,8 @@ steps:
     do
       workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
       echo $workload_status
-      sleep 30
-      if [ $workload_status_iterations -ge 30 ];
+      sleep 10
+      if [ $workload_status_iterations -ge 10 ];
       then
         break
       fi
