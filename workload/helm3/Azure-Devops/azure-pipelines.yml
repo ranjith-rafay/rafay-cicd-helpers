@@ -8,7 +8,7 @@ trigger:
 - master
 
 variables:
-  workload_yaml: ../workload/helm3/manifests/workload-spec.yaml
+  workload_yaml: System.DefaultWorkingDirectory)/_ranjith-rafay_rafay-cicd-helpers/workload/helm3/manifests/workload-spec.yaml
   workload: wordpress-demo1
 
 pool:
@@ -23,7 +23,7 @@ steps:
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     chmod 0755 ${HOME}/rctl
     set +e
-    ${HOME}/rctl create workload $(System.DefaultWorkingDirectory)/_ranjith-rafay_rafay-cicd-helpers/workload/helm3/manifests/workload-spec.yaml
+    ${HOME}/rctl create workload $(workload_yaml)
     ${HOME}/rctl publish workload $(workload)
     workload_status="Not Ready"
     workload_status_iterations=1
