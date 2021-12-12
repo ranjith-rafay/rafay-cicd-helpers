@@ -8,7 +8,7 @@ trigger:
 - master
 
 variables:
-  workload_yaml: System.DefaultWorkingDirectory)/_ranjith-rafay_rafay-cicd-helpers/workload/helm3/manifests/workload-spec.yaml
+  workload_yaml: (System.DefaultWorkingDirectory)/_ranjith-rafay_rafay-cicd-helpers/workload/helm3/manifests/workload-spec.yaml
   workload: wordpress-demo1
 
 pool:
@@ -44,5 +44,3 @@ steps:
       workload_status_iterations=$((workload_status_iterations+1))
     done
   displayName: 'create and publish workload'
-
-
