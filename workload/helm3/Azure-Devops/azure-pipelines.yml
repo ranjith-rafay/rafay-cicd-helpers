@@ -17,7 +17,7 @@ pool:
 steps:
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '../workload/helm3/manifests/'
+    SourceFolder: 'System.DefaultWorkingDirectory/_ranjith-rafay_rafay-cicd-helpers/workload/helm3/manifests/workload-spec.yaml'
     Contents: 'workload-spec.yaml'
     TargetFolder: '$(Agent.DefaultWorkingDirectory)'
 - script: |
