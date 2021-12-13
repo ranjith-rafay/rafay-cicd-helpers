@@ -9,7 +9,9 @@ trigger:
 
 variables:
   workload_yaml: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml
-  workload: wordpress-demo1 
+  workload: wordpress-demo1
+  AzureSubscription: 'ranjith-aks-service-connn' # Name of the Service Connection
+  KubernetesCluster: 'ranjithsol'
 
 pool:
   vmImage: 'ubuntu-latest'
