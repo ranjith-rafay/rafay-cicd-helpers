@@ -35,8 +35,8 @@ steps:
     do
       workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
       echo $workload_status
-      sleep 30
-      if [ $workload_status_iterations -ge 30 ];
+      sleep 10
+      if [ $workload_status_iterations -ge 10 ];
       then
         break
       fi
