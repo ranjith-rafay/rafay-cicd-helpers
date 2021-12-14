@@ -8,7 +8,7 @@ trigger:
 - master
 
 variables:
-  workload_yaml: ./workload/helm3/manifests/workload-spec.yaml
+  workload_yaml: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml
   workload: wordpress-demo1
 
 pool:
@@ -22,7 +22,7 @@ steps:
     wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     echo "Hello"
-    chmod 0755 ${HOME}/rctl
+    chmod 0777 ${HOME}/rctl
     echo "Here"
     wl_tmp=`./rctl get workload -o json | jq '.result[]|.name' |cut -d'"' -f2`
     WL_TMP_ARRAY=( $wl_tmp )
@@ -30,9 +30,9 @@ steps:
     LookupWorkload $WORKLOAD_NAME "${WL_TMP_ARRAY[@]}"
     if [ $? -eq 1 ]; then
      set -e
-     ./rctl create workload $(workload_yaml)
+     ${HOME}/rctl create workload $(workload_yaml)
     else
-     ./rctl update workload $(workload_yaml)
+     ${HOME}/rctl update workload $(workload_yaml)
     fi
     ${HOME}/rctl publish workload $(workload)
     workload_status="Not Ready"
