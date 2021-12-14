@@ -9,7 +9,7 @@ trigger:
 
 resources:
   repositories:
-  - repository: LearningDevOpS
+  - repository: ranjith-rafay
     type: git
     name: rafay-cicd-helpers
     ref: master
