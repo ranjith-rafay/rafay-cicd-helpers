@@ -10,7 +10,7 @@ trigger:
 resources:
   repositories:
   - repository: ranjith-rafay
-    type: git
+    type: github
     name: rafay-cicd-helpers
     ref: master
 
