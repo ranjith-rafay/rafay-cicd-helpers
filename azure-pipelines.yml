@@ -27,7 +27,6 @@ steps:
     chmod 0777 ${HOME}/rctl
     echo "Here"
     set +e
-    set -e
     ${HOME}/rctl create workload $(workload_yaml)
     ${HOME}/rctl publish workload $(workload)
     workload_status="Not Ready"
