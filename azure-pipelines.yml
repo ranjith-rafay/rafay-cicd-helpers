@@ -29,7 +29,7 @@ steps:
   inputs:
     script: |
       echo $(workload_yaml)
-
+- checkout: ranjith-rafay
 - script: |
     export RCTL_API_KEY=$(RCTL_API_KEY)
     export RCTL_API_SECRET=$(RCTL_API_SECRET)
