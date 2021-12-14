@@ -8,7 +8,7 @@ trigger:
 - master
 
 variables:
-  workload_yaml: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml
+  (workload_yaml): $(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml
   workload: wordpress-demo1
   KubernetesCluster: 'ranjithsol'
   AzureSubscription: 'aks-k8s'
@@ -27,6 +27,7 @@ steps:
     chmod 0777 ${HOME}/rctl
     echo "Here"
     set +e
+    echo $(workload_yaml)
     ${HOME}/rctl create workload $(workload_yaml)
     ${HOME}/rctl publish workload $(workload)
     workload_status="Not Ready"
