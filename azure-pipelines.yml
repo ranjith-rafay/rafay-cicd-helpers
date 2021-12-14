@@ -28,7 +28,7 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      echo  "${workload_yaml}""
+      echo  "${workload_yaml}"
 
 - script: |
     export RCTL_API_KEY=$(RCTL_API_KEY)
@@ -39,7 +39,6 @@ steps:
     chmod 0777 ${HOME}/rctl
     echo "Here"
     set +e
-    echo "${workload_yaml}""
     ${HOME}/rctl create workload $(workload_yaml)
     ${HOME}/rctl publish workload $(workload)
     workload_status="Not Ready"
