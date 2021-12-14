@@ -9,7 +9,7 @@ trigger:
 
 resources:
   repositories:
-  - repository: ranjith-rafay
+  - repository: ranjith-rafay/rafay-cicd-helpers
     type: github
     name: rafay-cicd-helpers
     endpoint: ranjith-rafay
