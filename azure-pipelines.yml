@@ -28,7 +28,7 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      echo  "${workload_yaml}"
+      echo $(workload_yaml)
 
 - script: |
     export RCTL_API_KEY=$(RCTL_API_KEY)
