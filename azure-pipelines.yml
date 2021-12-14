@@ -7,8 +7,15 @@
 trigger:
 - master
 
+resources:
+  repositories:
+  - repository: LearningDevOpS
+    type: git
+    name: rafay-cicd-helpers
+    ref: master
+
 variables:
-  (workload_yaml): $(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml
+  workload_yaml: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml
   workload: wordpress-demo1
   KubernetesCluster: 'ranjithsol'
   AzureSubscription: 'aks-k8s'
@@ -17,6 +24,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo  $workload_yaml
 
 - script: |
     export RCTL_API_KEY=$(RCTL_API_KEY)
@@ -27,7 +38,7 @@ steps:
     chmod 0777 ${HOME}/rctl
     echo "Here"
     set +e
-    echo $(workload_yaml)
+    echo ${workload_yaml}
     ${HOME}/rctl create workload $(workload_yaml)
     ${HOME}/rctl publish workload $(workload)
     workload_status="Not Ready"
