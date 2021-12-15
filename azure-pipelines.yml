@@ -41,7 +41,7 @@ steps:
     sshEndpoint: 'ssh-k8s'
     sourceFolder: '/home/vsts/'
     contents: 'rctl-linux-amd64.tar.bz2'
-    targetFolder: '/home/opt'
+    targetFolder: '/home/azureuser'
     readyTimeout: '20000'
 
 - task: SSH@0
