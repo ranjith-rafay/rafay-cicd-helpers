@@ -39,7 +39,6 @@ steps:
 - task: InstallSSHKey@0
   inputs:
     knownHostsEntry: '129.146.78.37'
-    sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVtf4/k3QMPbU4AdpE2Ls/1qzSQakcwA6njTPsfiACwsK1hAYNv9qJUXSsmuijG+8DeAgaUTKs+TZYrW42XoG/MIja2t5l3Y4Ycxpn0QbAyw7bYph6mqR1o3hMNkg7DdcIUrGfDkPnSXtLVwZMQtx9kp1q/6enX5QGUdB+gT4dE+sCZCHX0DAYczdeVaVt62rd3xtULwQ593EtzLHyh08NqBrrQe0LrE2CyTS4BxegFR1QKw+jx1X6mv/XQrfnixbvFnEV/FpQtbSLTB2nSx/jPTOFv8czBRggEZpI0OsvoOzws+lEnQegeNBAPySaeKD6gr5blx9l2+2jPP05lLeh ubuntu@ranjithr-testbed1-core-dev-node-0'
     sshKeySecureFile: 'id_rsa'
 
 - task: CopyFilesOverSSH@0
