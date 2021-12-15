@@ -36,6 +36,12 @@ steps:
       export RCTL_API_SECRET=$(RCTL_API_SECRET)
       wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
 
+
+- task: InstallSSHKey@0
+  inputs:
+    knownHostsEntry: '132.226.117.102'
+    sshKeySecureFile: 'ssh-key-2021-12-15-2.key'
+    
 - task: CopyFilesOverSSH@0
   inputs:
     sshEndpoint: 'ssh-k8s'
