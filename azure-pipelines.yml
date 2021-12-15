@@ -18,7 +18,8 @@ resources:
 variables:
   workload_yaml: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml
   workload: wordpress-demo1
-  KubernetesCluster: 'ranjithsoln'
+  kubernetesServiceEndpoint: 'ranjith-k8s'
+  namespace: 'connect-devops'
 
 pool:
   vmImage: 'ubuntu-latest'
