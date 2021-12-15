@@ -18,8 +18,6 @@ resources:
 variables:
   workload_yaml: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml
   workload: wordpress-demo1
-  kubernetesServiceEndpoint: 'ranjith-k8s'
-  namespace: 'connect-devops'
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -31,34 +29,50 @@ steps:
       echo $(workload_yaml)
 - checkout: ranjith-rafay
 
-- script: |
-    export RCTL_API_KEY=$(RCTL_API_KEY)
-    export RCTL_API_SECRET=$(RCTL_API_SECRET)
-    wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
-    echo $(Home)
-    tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
-    echo "Hello"
-    chmod 0777 ${HOME}/rctl
-    echo "Here"
-    set +e
-    ${HOME}/rctl create workload $(workload_yaml)
-    ${HOME}/rctl publish workload $(workload)
-    workload_status="Not Ready"
-    workload_status_iterations=1
-    while [ "$workload_status" != "Ready" ];
-    do
-      workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
-      echo $workload_status
-      sleep 10
-      if [ $workload_status_iterations -ge 10 ];
-      then
-        break
-      fi
-      if [ "$workload_status" = "Failed" ];
-      then
-        echo "Workload Deployment Failed"
-        break
-      fi
-      workload_status_iterations=$((workload_status_iterations+1))
-    done
-  displayName: 'create and publish workload'
+- task: CmdLine@2
+  inputs:
+    script: |
+      export RCTL_API_KEY=$(RCTL_API_KEY)
+          export RCTL_API_SECRET=$(RCTL_API_SECRET)
+          wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
+
+- task: CopyFilesOverSSH@0
+  inputs:
+    sshEndpoint: 'ssh-k8s'
+    sourceFolder: '${HOME}'
+    contents: 'rctl-linux-amd64.tar.bz2'
+    targetFolder: '/home/opt'
+    readyTimeout: '20000'
+
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'ssh-k8s'
+    runOptions: 'inline'
+    inline: |
+      tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
+      echo "Hello"
+      chmod 0777 ${HOME}/rctl
+      echo "Here"
+      set +e
+      ${HOME}/rctl create workload $(workload_yaml)
+      ${HOME}/rctl publish workload $(workload)
+      workload_status="Not Ready"
+      workload_status_iterations=1
+      while [ "$workload_status" != "Ready" ];
+      do
+        workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
+        echo $workload_status
+        sleep 10
+        if [ $workload_status_iterations -ge 10 ];
+        then
+          break
+        fi
+        if [ "$workload_status" = "Failed" ];
+        then
+          echo "Workload Deployment Failed"
+          break
+        fi
+        workload_status_iterations=$((workload_status_iterations+1))
+      done
+      displayName: 'create and publish workload'
+    readyTimeout: '20000'  
