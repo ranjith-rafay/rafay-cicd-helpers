@@ -33,8 +33,8 @@ steps:
   inputs:
     script: |
       export RCTL_API_KEY=$(RCTL_API_KEY)
-          export RCTL_API_SECRET=$(RCTL_API_SECRET)
-          wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
+      export RCTL_API_SECRET=$(RCTL_API_SECRET)
+      wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
 
 - task: CopyFilesOverSSH@0
   inputs:
