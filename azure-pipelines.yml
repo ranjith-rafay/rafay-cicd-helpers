@@ -39,7 +39,7 @@ steps:
 - task: CopyFilesOverSSH@0
   inputs:
     sshEndpoint: 'ssh-k8s'
-    sourceFolder: '${HOME}'
+    sourceFolder: '$(System.DefaultWorkingDirectory)'
     contents: 'rctl-linux-amd64.tar.bz2'
     targetFolder: '/home/opt'
     readyTimeout: '20000'
