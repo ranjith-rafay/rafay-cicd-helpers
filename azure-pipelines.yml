@@ -17,7 +17,6 @@ resources:
 
 variables:
   workload_yaml: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml
-  workload: wordpress-demo3
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -42,7 +41,8 @@ steps:
     ${HOME}/rctl config show
     ${HOME}/rctl create ns wordpress
     echo "Namespace has been created"
-    cat $(workload_yaml)
+    workload=cat worklad_yaml| grep -iw name | awk '{print $2}'
+    echo "My Workload is" $(workload)
     ${HOME}/rctl create workload $(workload_yaml)
     echo "Done First"
     ${HOME}/rctl publish workload $(workload)
