@@ -32,6 +32,7 @@ steps:
     script: |
       workload=$(cat $(workload_yaml) | grep -iw name | awk '{print $2}')
       echo "##vso[task.setvariable variable=workload;isOutput=true]$workload"
+      echo "My Workload" $(workload)
 
 - script: |
     export RCTL_PROFILE=$(RCTL_PROFILE)
@@ -44,10 +45,8 @@ steps:
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
     chmod 777 ${HOME}/rctl
+    echo $(workload)
     ${HOME}/rctl config show
-    ${HOME}/rctl create ns wordpress
-    echo "Namespace has been created"
-    
     ${HOME}/rctl create workload $(workload_yaml)
     echo "Done First"
     ${HOME}/rctl publish workload $(workload)
