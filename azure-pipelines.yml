@@ -44,7 +44,7 @@ steps:
     wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
-    echo "My Workload" $workload
+    echo $(workload)
     chmod 777 ${HOME}/rctl
     echo $(workload)
     ${HOME}/rctl config show
