@@ -17,7 +17,7 @@ resources:
 
 variables:
   workload_yaml: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml
-  workload: wordpress-demo1
+  workload: wordpress-demo2
 
 pool:
   vmImage: 'ubuntu-latest'
