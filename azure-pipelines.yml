@@ -31,7 +31,7 @@ steps:
     targetType: 'inline'
     script: |
       cat $workload_yaml | grep -iw name | awk '{print $2}' 
-      echo "##vso[task.setvariable variable= workload;isOutput=true]$workload"
+      echo "##vso[task.setvariable variable=workload;isOutput=true]$workload"
     displayName: workload
 
 - script: |
