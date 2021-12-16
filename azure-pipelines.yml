@@ -41,7 +41,7 @@ steps:
     ${HOME}/rctl config show
     ${HOME}/rctl create ns wordpress
     echo "Namespace has been created"
-    workload=`cat worklad_yaml| grep -iw name | awk '{print $2}'`
+    workload=`cat $(workload_yaml) | grep -iw name | awk '{print $2}'`
     echo "My Workload is" $(workload)
     ${HOME}/rctl create workload $(workload_yaml)
     echo "Done First"
@@ -54,7 +54,7 @@ steps:
       workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
       echo $workload_status
       sleep 10
-      if [ $workload_status_iterations -ge 10 ];
+      if [ $workload_status_iterations -ge 2 ];
       then
         break
       fi
