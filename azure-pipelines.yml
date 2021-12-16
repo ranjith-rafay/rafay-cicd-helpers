@@ -42,6 +42,7 @@ steps:
     ${HOME}/rctl config show
     ${HOME}/rctl create ns wordpress
     echo "Namespace has been created"
+    cat $(workload_yaml)
     ${HOME}/rctl create workload $(workload_yaml)
     echo "Done First"
     ${HOME}/rctl publish workload $(workload)
