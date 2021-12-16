@@ -39,10 +39,11 @@ steps:
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
     chmod 777 ${HOME}/rctl
+    ${HOME}/rctl config show
+    ${HOME}/rctl create ns wordpress
+    echo "Namespace has been created"
     ${HOME}/rctl create workload $(workload_yaml)
     echo "Done First"
-    ${HOME}/rctl ns wordpress
-    echo "Namespace has been created"
     ${HOME}/rctl publish workload $(workload)
     echo "Done Second"
     workload_status="Not Ready"
