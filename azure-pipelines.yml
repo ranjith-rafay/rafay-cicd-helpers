@@ -27,6 +27,12 @@ steps:
     script: |
       echo  '$(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml'
 
+- task: CmdLine@2
+  inputs:
+    script: |
+      workload=$(cat $(workload_yaml) | grep -iw name | awk '{print $2}')
+      echo "##vso[task.setvariable variable=workload;isOutput=true]$workload"
+
 - script: |
     export RCTL_PROFILE=$(RCTL_PROFILE)
     export RCTL_API_KEY=$(RCTL_API_KEY)
@@ -41,8 +47,7 @@ steps:
     ${HOME}/rctl config show
     ${HOME}/rctl create ns wordpress
     echo "Namespace has been created"
-    workload=`cat $(workload_yaml) | grep -iw name | awk '{print $2}'`
-    echo "My Workload is" $(workload)
+    
     ${HOME}/rctl create workload $(workload_yaml)
     echo "Done First"
     ${HOME}/rctl publish workload $(workload)
