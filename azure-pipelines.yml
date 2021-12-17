@@ -48,7 +48,7 @@ steps:
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
     echo "Go"
-    echo "$workload"
+    echo "${GetWorkload.workload}"
     chmod 777 ${HOME}/rctl
     ${HOME}/rctl config show
     workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
