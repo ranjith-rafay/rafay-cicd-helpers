@@ -31,7 +31,7 @@ steps:
     targetType: 'inline'
     script: |
       workload=$(sudo cat $(workload_yaml) | grep -iw name | awk '{print $2}')
-      echo "##vso[task.setvariable variable=workload]$workload"
+      #echo "##vso[task.setvariable variable=workload]$workload"
       echo "My output"
       echo "${workload}"
   displayName: GetWorkload
@@ -47,8 +47,6 @@ steps:
     wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
-    echo "Start"
-    echo "${GetWorkload.workload}"
     echo "Go"
     echo "${workload}"
     chmod 777 ${HOME}/rctl
