@@ -57,7 +57,7 @@ steps:
     if [ "$workload_status" = "Ready" ];
     then
       echo "Workload is already deployed and running"
-      exit 1
+      exit 0
     fi
     ${HOME}/rctl create workload $(workload_yaml)
     echo "Done First"
