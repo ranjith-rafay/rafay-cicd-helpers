@@ -52,18 +52,19 @@ steps:
     chmod 777 ${HOME}/rctl
     echo $(workload)
     ${HOME}/rctl config show
+    workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
+    echo $workload_status
+    if [ "$workload_status" = "Ready" ];
+    then
+      echo "Workload is already deployed and running"
+      break
+    fi
     ${HOME}/rctl create workload $(workload_yaml)
     echo "Done First"
     ${HOME}/rctl publish workload $(workload)
     echo "Done Second"
     workload_status="Not Ready"
     workload_status_iterations=1
-    workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
-    if [ "$workload_status" = "Ready" ];
-    then
-      echo "Workload is already deployed and running"
-      break
-    fi
     while [ "$workload_status" != "Ready" ];
     do
       workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
