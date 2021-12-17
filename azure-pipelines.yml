@@ -60,9 +60,9 @@ steps:
     workload_status_iterations=1
     workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
     if [ "$workload_status" = "Ready" ];
-      then
-        echo "Workload is already deployed and running"
-        break
+    then
+      echo "Workload is already deployed and running"
+      break
     fi
     while [ "$workload_status" != "Ready" ];
     do
