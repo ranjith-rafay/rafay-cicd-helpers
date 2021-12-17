@@ -45,9 +45,9 @@ steps:
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
     echo "Start"
-    echo "$(GetWorkload.workload)""
+    echo "$(GetWorkload.workload)"
     echo "Go"
-    echo "$workload""
+    echo "$workload"
     chmod 777 ${HOME}/rctl
     echo $(workload)
     ${HOME}/rctl config show
