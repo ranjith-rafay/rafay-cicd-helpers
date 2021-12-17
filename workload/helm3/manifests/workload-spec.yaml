@@ -1,4 +1,4 @@
-name: wordpress-demo3
+name: wordpress-demo4
 namespace: wordpresss
 project: defaultproject
 type: Helm3
