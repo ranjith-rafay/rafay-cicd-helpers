@@ -48,11 +48,11 @@ steps:
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
     echo "Go"
-    echo "${workload}"
+    echo $(workload)
     chmod 777 ${HOME}/rctl
     ${HOME}/rctl config show
     workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
-    echo "$workload_status"
+    echo $(workload_status)
     if [ "$workload_status" = "Ready" ];
     then
       echo "Workload is already deployed and running"
