@@ -1,5 +1,5 @@
 name: wordpress-demo
-namespace: wordpresss
+namespace: wordpress
 project: defaultproject
 type: Helm3
 clusters: "ranjithsoln"
