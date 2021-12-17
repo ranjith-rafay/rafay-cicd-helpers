@@ -1,7 +1,7 @@
-name: wordpress-demo
+name: apache-demo
 namespace: wordpress
 project: defaultproject
 type: Helm3
 clusters: "ranjithsoln"
-payload: "./wordpress-9.0.3.tgz"
-values: "./wordpress-values.yaml"
+payload: "./apache-8.0.0-rafay.tgz"
+values: "./apache-custom-values.yaml"
