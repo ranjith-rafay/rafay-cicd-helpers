@@ -26,7 +26,7 @@ steps:
   inputs:
     script: |
       echo  '$(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml'
-- task: Bash@3
+- task: GetWorkLoad
   inputs:
     targetType: 'inline'
     script: |
@@ -47,7 +47,7 @@ steps:
     echo "Start"
     echo "$(GetWorkload.workload)"
     echo "Go"
-    echo "$workload"
+    echo "$(workload)"
     chmod 777 ${HOME}/rctl
     echo $(workload)
     ${HOME}/rctl config show
