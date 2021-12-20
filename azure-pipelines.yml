@@ -53,7 +53,6 @@ steps:
     ${HOME}/rctl config show
     workload_status="Not Ready"
     workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
-    echo $(workload_status)
     if [ "$workload_status" = "Ready" ];
     then
       echo "Workload is already deployed and running"
