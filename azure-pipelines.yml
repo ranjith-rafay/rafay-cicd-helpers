@@ -25,7 +25,8 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      echo  '$(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml'
+      echo '$(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml'
+      echo '$(System.DefaultWorkingDirectory)/workload/helm3/manifests/rafay_create_ns.yaml'
 - task: Bash@3
   inputs:
     targetType: 'inline'
