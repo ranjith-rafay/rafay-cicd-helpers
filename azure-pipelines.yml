@@ -65,7 +65,8 @@ steps:
     chmod 777 ${HOME}/rctl
     ${HOME}/rctl config show
     ${HOME}/rctl get namespace | awk {'print $2'}| grep -v NAME | awk '!/^$/' > /tmp/getns.out
-    grep -i $(workload) /tmp/namespacegetns.out > /dev/null 2>&1
+    cat /tmp/getns.out
+    grep -i $(workload) /tmp/getns.out > /dev/null 2>&1
     if [ $? -eq 1 ]; then
       ${HOME}/rctl create ns -f ns_create.yaml
       ${HOME}/rctl publish ns $(namespace)
