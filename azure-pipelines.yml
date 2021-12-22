@@ -64,12 +64,13 @@ steps:
     echo $(cluster)
     chmod 777 ${HOME}/rctl
     ${HOME}/rctl config show
-    ${HOME}/rctl namespace list > /tmp/namespace
-    grep -i $(workload) /tmp/namespace > /dev/null 2>&1
+    ${HOME}/rctl get namespace | awk {'print $2'}| grep -v NAME | awk '!/^$/' > /tmp/getns.out
+    grep -i $(workload) /tmp/namespacegetns.out > /dev/null 2>&1
     if [ $? -eq 1 ]; then
-      ${HOME}/rctl create ns create_ns.yaml
+      ${HOME}/rctl create ns -f ns_create.yaml
+      ${HOME}/rctl publish ns $(namespace)
     fi
-    rm /tmp/namespace
+    rm /tmp/getns.out
     workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
     if [ "$workload_status" = "Ready" ];
     then
