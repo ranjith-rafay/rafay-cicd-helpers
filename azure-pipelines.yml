@@ -58,7 +58,7 @@ steps:
     set +e
     `sudo sed s/%ns_name%/$(namespace)/g $(create_ns_yaml)  > create_ns.yaml`
     `cat create_ns.yaml | sudo sed s/%cluster_name%/$(cluster)/g` 
-    cat create_ns.yaml
+    #cat create_ns.yaml
     echo "Go"
     echo $(workload)
     echo $(namespace)
