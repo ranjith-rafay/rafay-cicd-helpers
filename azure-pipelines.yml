@@ -51,7 +51,7 @@ steps:
     wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
-    sed s/%ns_nameE%/${namespace}/g \ $(create_ns_yaml)  > create_ns.yaml
+    sudo sed s/%ns_nameE%/${namespace}/g \ $(create_ns_yaml)  > create_ns.yaml
     cat create_ns.yaml
     echo "Go"
     echo $(workload)
