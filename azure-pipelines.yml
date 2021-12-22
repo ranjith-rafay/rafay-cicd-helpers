@@ -33,12 +33,16 @@ steps:
     script: |
       workload=$(sudo cat $(workload_yaml) | grep -iw name | awk '{print $2}')
       namespace=$(sudo cat $(workload_yaml) | grep -iw namespace | awk '{print $2}')
+      cluster=$(sudo cat $(workload_yaml) | grep -iw clusters | awk '{print $2}') | tr -d '"'
       echo "##vso[task.setvariable variable=workload]$workload"
       echo "##vso[task.setvariable variable=namespace]$namespace"
+      echo "##vso[task.setvariable variable=cluster]$cluster"
       echo "My output"
       echo "${workload}"
       echo "My ns"
       echo "${namespace}"
+      echo "My Cluster"
+      echo "${cluster}"
   displayName: GetParamters
   name: GetWorkload
 
@@ -53,10 +57,12 @@ steps:
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
     `sudo sed s/%ns_name%/$(namespace)/g $(create_ns_yaml)  > create_ns.yaml`
+    `sudo sed s/%cluster_name%/$(cluster)/g $(create_ns.yaml)  > create_ns.yaml`
     cat create_ns.yaml
     echo "Go"
     echo $(workload)
     echo $(namespace)
+    echo $(cluster)
     chmod 777 ${HOME}/rctl
     ${HOME}/rctl config show
     workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
