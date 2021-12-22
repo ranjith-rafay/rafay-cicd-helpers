@@ -64,6 +64,12 @@ steps:
     echo $(cluster)
     chmod 777 ${HOME}/rctl
     ${HOME}/rctl config show
+    ${HOME}/rctl namespace list > /tmp/namespace
+    grep -i $(workload) /tmp/namespace > /dev/null 2>&1
+    if [ $? -eq 1 ]; then
+      ${HOME}/rctl namespace create create_ns.yaml
+    fi
+    rm /tmp/namespace
     workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
     if [ "$workload_status" = "Ready" ];
     then
