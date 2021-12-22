@@ -54,7 +54,6 @@ steps:
     echo $(workload)
     chmod 777 ${HOME}/rctl
     ${HOME}/rctl config show
-    workload_status="Not Ready"
     workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
     if [ "$workload_status" = "Ready" ];
     then
