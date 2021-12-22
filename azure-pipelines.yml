@@ -33,7 +33,7 @@ steps:
     script: |
       workload=$(sudo cat $(workload_yaml) | grep -iw name | awk '{print $2}')
       namespace=$(sudo cat $(workload_yaml) | grep -iw namespace | awk '{print $2}')
-      cluster=$(sudo cat $(workload_yaml) | grep -iw clusters | awk '{print $2}') | tr -d '"'
+      cluster=$(sudo cat $(workload_yaml) | grep -iw clusters | awk '{print $2}' | tr -d '"')
       echo "##vso[task.setvariable variable=workload]$workload"
       echo "##vso[task.setvariable variable=namespace]$namespace"
       echo "##vso[task.setvariable variable=cluster]$cluster"
