@@ -72,7 +72,7 @@ steps:
       workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
       echo $workload_status
       sleep 10
-      if [ $workload_status_iterations -ge 10 && "$workload_status" = "InProgress" ];
+      if [ $workload_status_iterations -ge 10 ] && [ $workload_status = "InProgress" ];
       then
         echo "Workload Deployment Failed"
         break
