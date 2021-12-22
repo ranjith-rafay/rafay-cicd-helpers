@@ -34,6 +34,7 @@ steps:
       workload=$(sudo cat $(workload_yaml) | grep -iw name | awk '{print $2}')
       namespace=$(sudo cat $(workload_yaml) | grep -iw namespace | awk '{print $2}')
       echo "##vso[task.setvariable variable=workload]$workload"
+      echo "##vso[task.setvariable variable=namespace]$namespace"
       echo "My output"
       echo "${workload}"
       echo "My ns"
@@ -51,11 +52,11 @@ steps:
     wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
-    echo $(namespace)
-    `sudo sed s/%ns_name%/$namespace/g $(create_ns_yaml)  > create_ns.yaml`
+    `sudo sed s/%ns_name%/$(namespace)/g $(create_ns_yaml)  > create_ns.yaml`
     cat create_ns.yaml
     echo "Go"
     echo $(workload)
+    echo $(namespace)
     chmod 777 ${HOME}/rctl
     ${HOME}/rctl config show
     workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
