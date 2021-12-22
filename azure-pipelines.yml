@@ -70,6 +70,7 @@ steps:
     if [ $? -eq 1 ]; then
       ${HOME}/rctl create ns -f create_ns.yaml
       ${HOME}/rctl publish ns $(namespace)
+      sleep 5
     fi
     rm /tmp/getns.out
     workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
