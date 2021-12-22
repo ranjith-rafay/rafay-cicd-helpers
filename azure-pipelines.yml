@@ -57,7 +57,8 @@ steps:
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
     `sudo sed s/%ns_name%/$(namespace)/g $(create_ns_yaml)  > create_ns.yaml`
-    `sudo sed s/%cluster_name%/$(cluster)/g create_ns.yaml  > create_ns.yaml`
+
+    `sudo sed s/%cluster_name%/$(cluster)/g $(create_ns.yaml)  >> create_ns.yaml`
     cat create_ns.yaml
     echo "Go"
     echo $(workload)
