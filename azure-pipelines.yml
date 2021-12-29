@@ -69,8 +69,9 @@ steps:
     grep -i $(namespace) /tmp/getns.out > /dev/null 2>&1
     if [ $? -eq 1 ]; then
       ${HOME}/rctl create ns -f create_ns.yaml
-      ${HOME}/rctl publish ns $(namespace)
       sleep 5
+      ${HOME}/rctl publish ns $(namespace)
+      sleep 10
     fi
     rm /tmp/getns.out
     workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
@@ -90,12 +91,7 @@ steps:
       workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
       echo $workload_status
       sleep 10
-      if [ $workload_status_iterations -ge 10 ] && [$workload_status = "InProgress"];
-      then
-        echo "Workload Deployment Failed"
-        break
-      fi
-      if [ "$workload_status" = "Failed" ];
+      if [ "$workload_status" = "Failed" ] || [ "$workload_status_iterations" = 11];
       then
         echo "Workload Deployment Failed"
         break
