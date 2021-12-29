@@ -1,11 +1,11 @@
 kind: ManagedNamespace
 apiVersion: config.rafay.dev/v2
 metadata:
-  name: apacheee
+  name: %ns_name%
 spec:
   type: RafayWizard
   placement:
     placementType: ClusterSpecific
     clusterLabels:
     - key: clusterName
-      value: ranjith-soln
+      value: %cluster_name%
