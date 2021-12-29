@@ -2,6 +2,6 @@ name: apache-test
 namespace: apache
 project: defaultproject
 type: Helm3
-clusters: "ranjithsoln"
+clusters: "ranjith-soln"
 payload: "./apache-8.0.0-rafay.tgz"
 values: "./apache-custom-values.yaml"
