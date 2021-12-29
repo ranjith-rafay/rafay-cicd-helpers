@@ -1,43 +1,11 @@
 kind: ManagedNamespace
 apiVersion: config.rafay.dev/v2
 metadata:
-  name: %ns_name%
-  description: desc-01
-  labels:
-    env: dev
-    priority: high
-    severity: low
-  annotations:
-    a1: v3
-    a2: v4
+  name: apacheee
 spec:
   type: RafayWizard
-  resourceQuota:
-    cpuRequests: 2
-    memoryRequests: 2
-    cpuLimits: 1
-    memoryLimits: 2
-  limitRange:
-    podLimits:
-      maxCpu: 3
-      maxMemory: 2
-      minCpu: 1
-      minMemory: 1
-      maxLimitRequestRatioCpu: 1
-      maxLimitRequestRatioMemory: 1
-    containerLimits:
-      maxCpu: 2
-      maxMemory: 2
-      minCpu: 2
-      minMemory: 2
-      defaultCpu: 2
-      defaultMemory: 2
-      defaultRequestCpu: 2
-      defaultRequestMemory: 2
-      maxLimitRequestRatioCpu: 1
-      maxLimitRequestRatioMemory: 1
   placement:
     placementType: ClusterSpecific
     clusterLabels:
     - key: clusterName
-      value: %cluster_name%
+      value: ranjith-soln
