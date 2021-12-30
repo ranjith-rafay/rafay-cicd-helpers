@@ -101,7 +101,7 @@ steps:
       workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
       echo $workload_status
       sleep 10
-      if [ "$workload_status" = "Failed" ] || [ "$workload_status_iterations" -eq 11];
+      if [ "$workload_status" = "Failed" ] || [ $workload_status_iterations -eq 11];
       then
         echo "Workload Deployment Failed"
         break
