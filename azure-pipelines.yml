@@ -64,6 +64,14 @@ steps:
     echo $(cluster)
     chmod 777 ${HOME}/rctl
     ${HOME}/rctl config show
+    ${HOME}/rctl get cluster | awk {'print $2'}| grep -v NAME | awk '!/^$/' > /tmp/getcluster.out
+    cat /tmp/getcluster.out
+    grep -i $(cluster) /tmp/getcluster.out > /dev/null 2>&1
+    if [ $? -eq 1 ]; then
+      echo "There is no such cluster exists!!!"
+      exit 0
+    fi
+    rm /tmp/getcluster.out 
     ${HOME}/rctl get namespace | awk {'print $2'}| grep -v NAME | awk '!/^$/' > /tmp/getns.out
     cat /tmp/getns.out
     grep -i $(namespace) /tmp/getns.out > /dev/null 2>&1
@@ -72,6 +80,8 @@ steps:
       sleep 5
       ${HOME}/rctl publish ns $(namespace)
       sleep 10
+    else
+      echo "$(namespace) exists"
     fi
     rm /tmp/getns.out
     workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
