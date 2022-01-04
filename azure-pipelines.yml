@@ -37,13 +37,10 @@ steps:
       echo "##vso[task.setvariable variable=workload]$workload"
       echo "##vso[task.setvariable variable=namespace]$namespace"
       echo "##vso[task.setvariable variable=cluster]$cluster"
-      echo "My output"
-      echo "${workload}"
-      echo "My ns"
-      echo "${namespace}"
-      echo "My Cluster"
-      echo "${cluster}"
-  displayName: GetParamters
+      echo "Selected Workload is : ${workload}"
+      echo "Selected Namespace is : ${namespace}"
+      echo "Selected Rafay Cluster is :  ${cluster}"
+  displayName: 'Get Workload Paramters'
   name: GetWorkload
 
 - script: |
@@ -57,13 +54,7 @@ steps:
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
     `sudo sed "s/%ns_name%/$(namespace)/g; s/%cluster_name%/$(cluster)/g" $(create_ns_yaml)  > create_ns.yaml`
-    echo "Go"
-    cat create_ns.yaml
-    echo $(workload)
-    echo $(namespace)
-    echo $(cluster)
     chmod 777 ${HOME}/rctl
-    ${HOME}/rctl config show
     ${HOME}/rctl get cluster | awk {'print $2'}| grep -v NAME | awk '!/^$/' > /tmp/getcluster.out
     cat /tmp/getcluster.out
     grep -i $(cluster) /tmp/getcluster.out > /dev/null 2>&1
@@ -73,7 +64,6 @@ steps:
     fi
     rm /tmp/getcluster.out 
     ${HOME}/rctl get namespace | awk {'print $2'}| grep -v NAME | awk '!/^$/' > /tmp/getns.out
-    cat /tmp/getns.out
     grep -i $(namespace) /tmp/getns.out > /dev/null 2>&1
     if [ $? -eq 1 ]; then
       ${HOME}/rctl create ns -f create_ns.yaml
@@ -81,19 +71,11 @@ steps:
       ${HOME}/rctl publish ns $(namespace)
       sleep 10
     else
-      echo "$(namespace) exists"
+      echo "Namespace $(namespace) is already exists"
     fi
     rm /tmp/getns.out
-    workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
-    if [ "$workload_status" = "Ready" ];
-    then
-      echo "Workload is already deployed and running"
-      exit 0
-    fi
     ${HOME}/rctl create workload $(workload_yaml)
-    echo "Done First"
     ${HOME}/rctl publish workload $(workload)
-    echo "Done Second"
     workload_status="Not Ready"
     workload_status_iterations=1
     while [ "$workload_status" != "Ready" ];
@@ -103,7 +85,7 @@ steps:
       sleep 10
       if [[ "$workload_status" = "Failed"  ||  $workload_status_iterations -eq 11 ]];
       then
-        echo "Workload Deployment Failed"
+        echo "Workload Deployment has been Failed"
         break
       fi
       workload_status_iterations=$((workload_status_iterations+1))
