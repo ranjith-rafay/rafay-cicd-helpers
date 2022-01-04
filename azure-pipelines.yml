@@ -87,7 +87,7 @@ steps:
       if [[ "$workload_status" = "Failed"  ||  $workload_status_iterations -eq 10 ]];
       then
         echo "$(workload) deployment has been Failed"
-        break
+        exit 0
       fi
       workload_status_iterations=$((workload_status_iterations+1))
     done
