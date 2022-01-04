@@ -25,8 +25,9 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      echo '$(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml'
-      echo '$(System.DefaultWorkingDirectory)/workload/helm3/manifests/rafay_create_ns.yaml'
+      echo 'Workload Spec Path on Agent Machine :$(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml'
+      echo 'Namespace Creation Manfiest YAML on Agent Machine: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/rafay_create_ns.yaml'
+  displayName: 'Copying YAML spec of Workload and Namespace'
 - task: Bash@3
   inputs:
     targetType: 'inline'
@@ -55,11 +56,11 @@ steps:
     set +e
     `sudo sed "s/%ns_name%/$(namespace)/g; s/%cluster_name%/$(cluster)/g" $(create_ns_yaml)  > create_ns.yaml`
     chmod 777 ${HOME}/rctl
+    echo "Rafay Binary has been pulled and saved successfully on Agent machine"
     ${HOME}/rctl get cluster | awk {'print $2'}| grep -v NAME | awk '!/^$/' > /tmp/getcluster.out
-    cat /tmp/getcluster.out
     grep -i $(cluster) /tmp/getcluster.out > /dev/null 2>&1
     if [ $? -eq 1 ]; then
-      echo "There is no such cluster exists!!!"
+      echo "There is no cluster with name $(cluster) as exists!!!"
       exit 0
     fi
     rm /tmp/getcluster.out 
@@ -81,11 +82,11 @@ steps:
     while [ "$workload_status" != "Ready" ];
     do
       workload_status=`${HOME}/rctl status workload $(workload) -o json|jq .result[].status|tr -d '"'`
-      echo $workload_status
+      echo "$(workload)  deployment is $workload_status"
       sleep 10
       if [[ "$workload_status" = "Failed"  ||  $workload_status_iterations -eq 11 ]];
       then
-        echo "Workload Deployment has been Failed"
+        echo "$(workload) Deployment has been Failed"
         break
       fi
       workload_status_iterations=$((workload_status_iterations+1))
