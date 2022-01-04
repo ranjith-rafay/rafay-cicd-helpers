@@ -60,7 +60,7 @@ steps:
     ${HOME}/rctl get cluster | awk {'print $2'}| grep -v NAME | awk '!/^$/' > /tmp/getcluster.out
     grep -i $(cluster) /tmp/getcluster.out > /dev/null 2>&1
     if [ $? -eq 1 ]; then
-      echo "There is no cluster with name $(cluster) as exists!!!"
+      echo "There is no cluster with name as $(cluster) exists!!!"
       exit 0
     fi
     rm /tmp/getcluster.out 
@@ -91,4 +91,4 @@ steps:
       fi
       workload_status_iterations=$((workload_status_iterations+1))
     done
-  displayName: 'create and publish workload'
+  displayName: 'Create and Publish Workload'
