@@ -76,6 +76,11 @@ steps:
     fi
     rm /tmp/getns.out
     ${HOME}/rctl create workload $(workload_yaml)
+    if [ $? -eq 1 ];
+    then
+      echo "$(workload) deployment has been Failed"
+      exit 1
+    fi
     ${HOME}/rctl publish workload $(workload)
     workload_status="Not Ready"
     workload_status_iterations=1
