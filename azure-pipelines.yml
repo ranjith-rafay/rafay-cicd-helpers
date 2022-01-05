@@ -79,7 +79,7 @@ steps:
     if [ $? -eq 1 ];
     then
       echo "$(workload) deployment has been Failed"
-      exit 1
+      exit 0
     fi
     ${HOME}/rctl publish workload $(workload)
     workload_status="Not Ready"
