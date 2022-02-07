@@ -1,6 +1,6 @@
 name: apache-app
 namespace: wordpress-ns
-project: defaultproject
+project: ranjith-training
 type: Helm3
 clusters: "ranjith-soln"
 payload: "./apache-8.0.0-rafay.tgz"
