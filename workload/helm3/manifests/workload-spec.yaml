@@ -1,5 +1,5 @@
 name: wordpress-app
-namespace: apache-ns
+namespace: wordpress-ns
 project: ranjith-training
 type: Helm3
 clusters: "ranjith-soln"
