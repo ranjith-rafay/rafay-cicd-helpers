@@ -3,5 +3,5 @@ namespace: apache-ns
 project: ranjith-training
 type: Helm3
 clusters: "ranjith-soln"
-payload: "/wordpress-9.0.3.tgz"
+payload: "./wordpress-9.0.3.tgz"
 values: "./wordpress-values.yaml"
