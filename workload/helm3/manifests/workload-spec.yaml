@@ -1,7 +1,7 @@
-name: apache-app
+name: wordpress-app
 namespace: wordpress-ns
 project: ranjith-training
 type: Helm3
 clusters: "ranjith-soln"
-payload: "./apache-8.0.0-rafay.tgz"
-values: "./apache-custom-values.yaml"
+payload: “./wordpress-9.0.3.tgz” 
+values: “./wordpress-values.yaml"
