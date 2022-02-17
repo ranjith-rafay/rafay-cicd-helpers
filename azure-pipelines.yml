@@ -47,7 +47,7 @@ steps:
     set +e
     `sudo sed "s/%ns_name%/$(NAMESPACE)/g; s/%cluster_name%/$(CLUSTER)/g" $(create_ns_yaml)  > create_ns.yaml`
     cat create_ns.yaml
-    `sudo sed -i -e "s/%workload_name%/$(WORKLOAD)/g" -e "s/%ns_name%/$(NAMESPACE)/g" -e "s/%project_name%/$(RCTL_PROJECT)/g" -e "s/%cluster_name%/$(CLUSTER)/g" -e "s/%payload_package%/$(PAYLOAD)/g" -e "s/%payload_values%/$(VALUES)/g" $(workload_yaml)  > create_workload.yaml`
+    `sudo sed -i -e "s/%workload_name%/$(WORKLOAD)/g" -e "s/%ns_name%/$(NAMESPACE)/g" -e "s/%project_name%/$(RCTL_PROJECT)/g" -e "s/%cluster_name%/$(CLUSTER)/g" -e "s/%payload_package%/$(PAYLOAD)/g" -e "s/%payload_values%/$(VALUES)/g" $(workload_yaml)`
     cat create_workload.yaml
     chmod 777 ${HOME}/rctl
     echo "Rafay Binary has been pulled and saved successfully on Agent machine"
@@ -69,7 +69,7 @@ steps:
       echo "Namespace $(namespace) is already exists"
     fi
     rm /tmp/getns.out
-    ${HOME}/rctl create workload create_workload.yaml
+    ${HOME}/rctl create workload $(workload_yaml)
     if [ $? -eq 1 ];
     then
       echo "$(workload) deployment has been Failed"
