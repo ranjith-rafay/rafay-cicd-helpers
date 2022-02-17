@@ -28,32 +28,25 @@ steps:
       echo 'Workload Spec Path on Agent Machine :$(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml'
       echo 'Namespace Creation Manfiest YAML on Agent Machine: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/rafay_create_ns.yaml'
   displayName: 'Copying YAML spec of Workload and Namespace'
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      workload=$(sudo cat $(workload_yaml) | grep -iw name | awk '{print $2}')
-      namespace=$(sudo cat $(workload_yaml) | grep -iw namespace | awk '{print $2}')
-      cluster=$(sudo cat $(workload_yaml) | grep -iw clusters | awk '{print $2}' | tr -d '"')
-      echo "##vso[task.setvariable variable=workload]$workload"
-      echo "##vso[task.setvariable variable=namespace]$namespace"
-      echo "##vso[task.setvariable variable=cluster]$cluster"
-      echo "Selected Workload is : ${workload}"
-      echo "Selected Namespace is : ${namespace}"
-      echo "Selected Rafay Cluster is :  ${cluster}"
-  displayName: 'Get Workload Paramters'
-  name: GetWorkload
 
 - script: |
-    export RCTL_PROFILE=$(RCTL_PROFILE)
+    
+    export RCTL_PROFILE= " "
     export RCTL_API_KEY=$(RCTL_API_KEY)
     export RCTL_API_SECRET=$(RCTL_API_SECRET)
     export RCTL_PROJECT=$(RCTL_PROJECT)
-    export RCTL_REST_ENDPOINT=$(RCTL_REST_ENDPOINT)
-    export RCTL_OPS_ENDPOINT=$(RCTL_OPS_ENDPOINT)
+    export RCTL_REST_ENDPOINT= "console.rafay.dev"
+    export RCTL_OPS_ENDPOINT= "ops.rafay.dev"
+    export type= "helm3"
+    export workload=$(WORKLOAD_NAME)
+    export namespace=$(NAMESPACE)
+    export cluster= $(CLUSTER_NAME)
+    export payload= $(PAYLOAD)
+    export values= $(VALUES)
     wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
+    `sudo sed -i `"s/%workload_name%/$(workload)/g; s/%ns_name%/$(namespace)/g; s/%project_name%/$(RCTL_PROJECT)/g"; s/%cluster_name%/$(cluster)/g; s/%payload_package%/$(payload)/g; s/%payload_values%/$(values)/g $(workload_yaml)  > $(workload_yaml)`
     `sudo sed "s/%ns_name%/$(namespace)/g; s/%cluster_name%/$(cluster)/g" $(create_ns_yaml)  > create_ns.yaml`
     chmod 777 ${HOME}/rctl
     echo "Rafay Binary has been pulled and saved successfully on Agent machine"
@@ -75,7 +68,7 @@ steps:
       echo "Namespace $(namespace) is already exists"
     fi
     rm /tmp/getns.out
-    ${HOME}/rctl create workload $(workload_yaml)
+    ${HOME}/rctl create workload -f workload.yaml
     if [ $? -eq 1 ];
     then
       echo "$(workload) deployment has been Failed"
