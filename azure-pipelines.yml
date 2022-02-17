@@ -32,6 +32,7 @@ steps:
 - script: |
     
     export RCTL_API_KEY=$(RCTL_API_KEY)
+    export RCTL_PROFILE=$(RCTL_PROFILE)
     export RCTL_API_SECRET=$(RCTL_API_SECRET)
     export RCTL_PROJECT=$(RCTL_PROJECT)
     export RCTL_REST_ENDPOINT= "console.rafay.dev"
@@ -43,7 +44,7 @@ steps:
     echo "Workload : $(workload)"
     export namespace=$(namespace)
     echo "Namespace: $(workload)"
-    export clustername= $(CLUSTER)
+    export clustername=$(CLUSTER)
     echo "Cluster: $(cluster)"
     export payload= $(PAYLOAD)
     echo "Payload: $(payload)"
@@ -55,6 +56,7 @@ steps:
     `sudo sed "s/%ns_name%/$(namespace)/g; s/%cluster_name%/$(clustername)/g" $(create_ns_yaml)  > create_ns.yaml`
     cat create_ns.yaml
     `sudo sed "s/%workload_name%/$(workload)/g; s/%ns_name%/$(namespace)/g; s/%project_name%/$(project)/g; s/%cluster_name%/$(clustername)/g; s/%payload_package%/$(payload)/g; s/%payload_values%/$(values)/g" $(workload_yaml) > $(workload_yaml)`
+    cat $(workload_yaml)
     chmod 777 ${HOME}/rctl
     echo "Rafay Binary has been pulled and saved successfully on Agent machine"
     ${HOME}/rctl get cluster | awk {'print $2'}| grep -v NAME | awk '!/^$/' > /tmp/getcluster.out
