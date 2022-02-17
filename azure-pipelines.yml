@@ -18,6 +18,8 @@ resources:
 variables:
   workload_yaml: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml
   create_ns_yaml: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/rafay_create_ns.yaml
+  RCTL_REST_ENDPOINT: "console.rafay.dev"
+  RCTL_OPS_ENDPOINT: "ops.rafay.dev"
 pool:
   vmImage: 'ubuntu-18.04'
 
@@ -38,16 +40,14 @@ steps:
     echo "Secret $(RCTL_API_SECRET)"
     export RCTL_PROJECT=$(RCTL_PROJECT)
     echo "Project $(RCTL_PROJECT)"
-    export RCTL_REST_ENDPOINT= "console.rafay.dev"
-    echo "Rest EP $(RCTL_REST_ENDPOINT)"
-    export RCTL_OPS_ENDPOINT= "ops.rafay.dev"
-    
+
+
     wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
     `sudo sed "s/%ns_name%/$(NAMESPACE)/g; s/%cluster_name%/$(CLUSTER)/g" $(create_ns_yaml)  > create_ns.yaml`
     cat create_ns.yaml
-    `sudo sed "s/%workload_name%/$(WORKLOAD)/g; s/%ns_name%/$(NAMESPACE)/g; s/%project_name%/$(RCTL_PROJECT)/g; s/%cluster_name%/$(CLUSTER)/g; s/%payload_package%/$(PAYLOAD)/g; s/%payload_values%/$(VALUES)/g" $(workload_yaml) > $(workload_yaml)`
+    `sudo sed -i -e "s/%workload_name%/$(WORKLOAD)/; s/%ns_name%/$(NAMESPACE)/; s/%project_name%/$(RCTL_PROJECT)/; s/%cluster_name%/$(CLUSTER)/; s/%payload_package%/$(PAYLOAD)/; s/%payload_values%/$(VALUES)/" $(workload_yaml)`
     cat $(workload_yaml)
     chmod 777 ${HOME}/rctl
     echo "Rafay Binary has been pulled and saved successfully on Agent machine"
