@@ -38,17 +38,23 @@ steps:
     export RCTL_OPS_ENDPOINT= "ops.rafay.dev"
     export type= "helm3"
     export project=$(RCTL_PROJECT)
-    export workload=$(WORKLOAD_NAME)
-    export namespace=$(NAMESPACE)
-    export cluster= $(CLUSTER_NAME)
+    echo "Project: $(project)"
+    export workload=$(WORKLOAD)
+    echo "Workload : $(workload)"
+    export namespace=$(namespace)
+    echo "Namespace: $(workload)"
+    export clustername= $(CLUSTER)
+    echo "Cluster: $(cluster)"
     export payload= $(PAYLOAD)
+    echo "Payload: $(payload)"
     export values= $(VALUES)
+    echo "Values: $(values)"
     wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
-    `sudo sed "s/%ns_name%/$(namespace)/g; s/%cluster_name%/$(cluster)/g" $(create_ns_yaml)  > create_ns.yaml`
+    `sudo sed "s/%ns_name%/$(namespace)/g; s/%cluster_name%/$(clustername)/g" $(create_ns_yaml)  > create_ns.yaml`
     cat create_ns.yaml
-    `sudo sed "s/%workload_name%/$(workload)/g; s/%ns_name%/$(namespace)/g; s/%project_name%/$(project)/g; s/%cluster_name%/$(cluster)/g; s/%payload_package%/$(payload)/g; s/%payload_values%/$(values)/g" $(workload_yaml) > $(workload_yaml)`
+    `sudo sed "s/%workload_name%/$(workload)/g; s/%ns_name%/$(namespace)/g; s/%project_name%/$(project)/g; s/%cluster_name%/$(clustername)/g; s/%payload_package%/$(payload)/g; s/%payload_values%/$(values)/g" $(workload_yaml) > $(workload_yaml)`
     chmod 777 ${HOME}/rctl
     echo "Rafay Binary has been pulled and saved successfully on Agent machine"
     ${HOME}/rctl get cluster | awk {'print $2'}| grep -v NAME | awk '!/^$/' > /tmp/getcluster.out
