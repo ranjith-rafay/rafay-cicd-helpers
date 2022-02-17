@@ -52,11 +52,7 @@ steps:
     chmod 777 ${HOME}/rctl
     echo "Rafay Binary has been pulled and saved successfully on Agent machine"
     ${HOME}/rctl get cluster | awk {'print $2'}| grep -v NAME | awk '!/^$/' > /tmp/getcluster.out
-    
-    if [ namespace[0].isupper() ]; then
-       echo "Namespace should starts with lowercase"
-       exit 0
-    fi   
+      
     grep -i $(cluster) /tmp/getcluster.out > /dev/null 2>&1
     if [ $? -eq 1 ]; then
       echo "There is no cluster with name as $(cluster) exists!!!"
