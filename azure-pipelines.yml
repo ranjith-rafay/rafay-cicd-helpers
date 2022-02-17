@@ -45,7 +45,7 @@ steps:
     wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
     set +e
-    `sudo sed "s/%workload_name%/$(workload)/g; s/%ns_name%/$(namespace)/g; s/%project_name%/$(RCTL_PROJECT)/g"; s/%cluster_name%/$(cluster)/g; s/%payload_package%/$(payload)/g; s/%payload_values%/$(values)/g $(workload_yaml)  > $(workload_yaml)`
+    `sudo sed -i "s/%workload_name%/$(workload)/g; s/%ns_name%/$(namespace)/g; s/%project_name%/$(RCTL_PROJECT)/g"; s/%cluster_name%/$(cluster)/g; s/%payload_package%/$(payload)/g; s/%payload_values%/$(values)/g $(workload_yaml)`
     `sudo sed "s/%ns_name%/$(namespace)/g; s/%cluster_name%/$(cluster)/g" $(create_ns_yaml)  > create_ns.yaml`
     chmod 777 ${HOME}/rctl
     echo "Rafay Binary has been pulled and saved successfully on Agent machine"
