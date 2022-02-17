@@ -47,7 +47,7 @@ steps:
     set +e
     `sudo sed "s/%ns_name%/$(NAMESPACE)/g; s/%cluster_name%/$(CLUSTER)/g" $(create_ns_yaml)  > create_ns.yaml`
     cat create_ns.yaml
-    `sudo sed 's/%workload%/$(WORKLOAD)/g; s/%ns_name%/$(NAMESPACE)/g; s/%project_name%/$(RCTL_PROJECT)/g; s/%cluster_name%/$(CLUSTER)/g; s/%'payload_package'%/$(PAYLOAD)/g; s/%'payload_values'%/$(VALUES)/g' $(workload_yaml)  > create-wl.yaml`
+    `sudo sed 's/%workload%/$(WORKLOAD)/g; s/%ns_name%/$(NAMESPACE)/g; s/%project_name%/$(RCTL_PROJECT)/g; s/%cluster_name%/$(CLUSTER)/g; s|%'payload_package'%|$(PAYLOAD)|g; s|%'payload_values'%|$(VALUES)|g' $(workload_yaml)  > create-wl.yaml`
     cat create-wl.yaml
     chmod 777 ${HOME}/rctl
     echo "Rafay Binary has been pulled and saved successfully on Agent machine"
