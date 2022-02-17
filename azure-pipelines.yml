@@ -19,7 +19,7 @@ variables:
   workload_yaml: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/workload-spec.yaml
   create_ns_yaml: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/rafay_create_ns.yaml
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-18.04'
 
 steps:
 - task: CmdLine@2
