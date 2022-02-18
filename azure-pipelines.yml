@@ -34,13 +34,9 @@ steps:
 - script: |
     
     export RCTL_API_KEY=$(RCTL_API_KEY)
-    echo "KEY $(RCTL_API_KEY)"
     export RCTL_PROFILE=$(RCTL_PROFILE)
     export RCTL_API_SECRET=$(RCTL_API_SECRET)
-    echo "Secret $(RCTL_API_SECRET)"
     export RCTL_PROJECT=$(RCTL_PROJECT)
-    echo "Project $(RCTL_PROJECT)"
-
 
     wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
@@ -59,6 +55,7 @@ steps:
       exit 0
     fi
     rm /tmp/getcluster.out 
+
     ${HOME}/rctl get namespace | awk {'print $2'}| grep -v NAME | awk '!/^$/' > /tmp/getns.out
     grep -i $(namespace) /tmp/getns.out > /dev/null 2>&1
     if [ $? -eq 1 ]; then
@@ -70,6 +67,7 @@ steps:
       echo "Namespace $(namespace) is already exists"
     fi
     rm /tmp/getns.out
+    
     ${HOME}/rctl create workload $(workload_yaml)
     if [ $? -eq 1 ];
     then
