@@ -64,10 +64,11 @@ steps:
       namespace_status_iterations=1
       while [ "$namespace_status" != "false" ];
       do
-        sleep 10
-        namespace_status= `${HOME}/rctl status namespace apache -o json | awk 'FNR==4{print $6}' | tr -d ""`
-        echo "$namespace_status"
-        if [[ "$namespace_status" = "true"  &&  $namespace_status_iterations -eq 6 ]];then
+        sleep 2
+        echo "One $namespace_status"
+        namespace_status= `${HOME}/rctl status namespace $(namespace) | awk 'FNR==4{print $6}' | tr -d '"'`
+        echo "second $namespace_status"
+        if [[ "$namespace_status" = "true"  &&  $namespace_status_iterations -eq 3 ]];then
           echo "$(namespace) creation has been Failed"
           exit 0
         fi
