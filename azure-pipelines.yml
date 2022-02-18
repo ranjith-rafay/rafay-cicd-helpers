@@ -63,10 +63,16 @@ steps:
       namespace_status="Not Ready"
       while [ "$namespace_status" != "false" ];
       do
-        echo "$namespace_status"
+        sleep 5  
         namespace_status=`${HOME}/rctl status namespace $(namespace) | awk '{print $6}'| grep -v "PUBLISHPENDING" |  awk '!/^$/'`
-        echo "$(namespace) publishing status is $namespace_status"
+        if [[ "$namespace_status" = "true"  &&  $namespace_status_iterations -eq 5 ]];then
+          echo "$(namespace) creation has been Failed"
+          exit 0
+        fi
+        echo "$namespace_status"
+        namespace_status_iterations=$((namespace_status_iterations+1))
       done
+      echo "Namespace $(namespace) has been published successfully"
     else
       echo "Namespace $(namespace) is already exists"
     fi
