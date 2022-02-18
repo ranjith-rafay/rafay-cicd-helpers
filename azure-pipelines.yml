@@ -60,7 +60,7 @@ steps:
       ${HOME}/rctl create ns -f create_ns.yaml
       sleep 5
       ${HOME}/rctl publish ns $(namespace)
-      namespace_status=true
+      namespace_status="true"
       namespace_status_iterations=1
       while [ "$namespace_status" != "true" ];
       do
