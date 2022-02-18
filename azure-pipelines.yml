@@ -62,7 +62,7 @@ steps:
       ${HOME}/rctl publish ns $(namespace)
       while [ "$namespace_status" != "false" ];
       do
-        namespace_status= `${HOME}/rctl status namespace $(namespace) | awk 'FNR==4{print "$6"}'`
+        namespace_status= `${HOME}/rctl status namespace $(namespace) | awk '"FNR==4{print $6}"'`
         echo "$(namespace) publishing status is $namespace_status"
       done
     else
