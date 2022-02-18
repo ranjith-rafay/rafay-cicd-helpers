@@ -60,7 +60,7 @@ steps:
       ${HOME}/rctl create ns -f create_ns.yaml
       sleep 5
       ${HOME}/rctl publish ns $(namespace)
-      namespace_status="true"
+      namespace_status="Not Ready"
       namespace_status_iterations=1
       while [ "$namespace_status" != "false" ];
       do
@@ -68,11 +68,6 @@ steps:
         echo "One $namespace_status"
         namespace_status= `${HOME}/rctl status namespace $(namespace) | awk 'FNR==4{print $6}' | tr -d '"'`
         echo "second $namespace_status"
-        if [[ "$namespace_status" = "true"  &&  $namespace_status_iterations -eq 3 ]];then
-          echo "$(namespace) creation has been Failed"
-          exit 0
-        fi
-        namespace_status_iterations=$((namespace_status_iterations+1))
       done
       echo "Namespace $(namespace) has been published successfully"
     else
