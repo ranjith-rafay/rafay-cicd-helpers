@@ -61,6 +61,7 @@ steps:
       sleep 5
       ${HOME}/rctl publish ns $(namespace)
       namespace_status="Not Ready"
+      namespace_status_iterations=1
       while [ "$namespace_status" != "false" ];
       do
         sleep 5  
