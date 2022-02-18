@@ -60,7 +60,18 @@ steps:
       ${HOME}/rctl create ns -f create_ns.yaml
       sleep 5
       ${HOME}/rctl publish ns $(namespace)
-      sleep 10
+      namespace_status= `${HOME}/rctl status namespace $(namespace)| awk '{print $6}' | grep -v "PUBLISHPENDING"`  
+      namespace_status_iterations=1
+      while [ "$namespace_status" != "true" ];
+      do
+        echo "$workload_status"
+        sleep 10
+        if [[ "$namespace_status" = "true"  ||  $workload_status_iterations -eq 10 ]];then
+          echo "$(namespace) creation has been Failed"
+          exit 0
+        fi
+        namespace_status_iterations=$((namespace_status_iterations+1))
+      done
     else
       echo "Namespace $(namespace) is already exists"
     fi
