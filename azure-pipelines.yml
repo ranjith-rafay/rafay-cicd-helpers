@@ -67,17 +67,18 @@ steps:
         namespace_status= `${HOME}/./rctl status namespace apache | awk 'FNR==4{print $6}'`
         echo "$namespace_status"
         sleep 10
-        if [[ "$namespace_status" = "true"  ||  $namespace_status_iterations -eq 10 ]];then
+        if [[ "$namespace_status" = "true"  &&  $namespace_status_iterations -eq 6 ]];then
           echo "$(namespace) creation has been Failed"
           exit 0
         fi
         namespace_status_iterations=$((namespace_status_iterations+1))
       done
+      echo "Namespace $(namespace) has been published successfully"
     else
       echo "Namespace $(namespace) is already exists"
     fi
     rm /tmp/getns.out
-
+    sleep 10
     ${HOME}/rctl create workload $(workload_yaml)
     if [ $? -eq 1 ];
     then
