@@ -62,7 +62,7 @@ steps:
       ${HOME}/rctl publish ns $(namespace)
       namespace_status="true"
       namespace_status_iterations=1
-      while [ "$namespace_status" != "true" ];
+      while [ "$namespace_status" != "false" ];
       do
         namespace_status= `${HOME}/./rctl status namespace apache | awk 'FNR==4{print $6}'`
         echo "$namespace_status"
