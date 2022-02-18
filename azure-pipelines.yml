@@ -63,7 +63,7 @@ steps:
       while [ "$namespace_status" != "false" ];
       do
         namespace_status= `${HOME}/rctl status namespace $(namespace) | awk '{print $6}'| grep -v "PUBLISHPENDING" |  awk '!/^$/'`
-        echo "$(namespace) publishing status is $namespace_status"
+        echo "$(namespace) publishing status is $(namespace_status)"
       done
     else
       echo "Namespace $(namespace) is already exists"
