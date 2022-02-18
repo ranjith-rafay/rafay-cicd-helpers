@@ -66,7 +66,7 @@ steps:
       do
         sleep 5  
         namespace_status=`${HOME}/rctl status namespace $(namespace) | awk '{print $6}'| grep -v "PUBLISHPENDING" |  awk '!/^$/'`
-        if [[ "$namespace_status" = "true"  &&  $namespace_status_iterations -eq 5 ]];then
+        if [[ "$namespace_status" = "true"  &&  $namespace_status_iterations -eq 10 ]];then
           echo "$(namespace) creation has been Failed"
           exit 0
         fi
