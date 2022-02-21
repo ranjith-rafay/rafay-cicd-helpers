@@ -60,13 +60,13 @@ steps:
       ${HOME}/rctl create ns -f create_ns.yaml
       sleep 5
       ${HOME}/rctl publish ns $(namespace)
-      namespace_status="Not Ready"
+      namespace_status=" "
       namespace_status_iterations=1
       while [ "$namespace_status" != "false" ];
       do
         sleep 5  
-        namespace_status=`${HOME}/rctl status namespace $(namespace) | awk '{print $6}'| grep -v "PUBLISHPENDING" |  awk '!/^$/'`
-        if [[ "$namespace_status" = "true"  &&  $namespace_status_iterations -eq 10 ]];then
+        namespace_status=`${HOME}/rctl status namespace $(namespace) | awk '{print $10}'| grep -v "DEPLOYEDCLUSTERS" |  awk '!/^$/'`
+        if [[ "$namespace_status" = $(cluster)  &&  $namespace_status_iterations -eq 10 ]];then
           echo "$(namespace) creation has been Failed"
           exit 0
         fi
