@@ -62,11 +62,11 @@ steps:
       ${HOME}/rctl publish ns $(namespace)
       namespace_status=" "
       namespace_status_iterations=1
-      while [ "$namespace_status" != "false" ];
+      while [ "$namespace_status" != $(cluster) ];
       do
         sleep 5  
         namespace_status=`${HOME}/rctl status namespace $(namespace) | awk '{print $10}'| grep -v "DEPLOYEDCLUSTERS" |  awk '!/^$/'`
-        if [[ "$namespace_status" = $(cluster)  &&  $namespace_status_iterations -eq 10 ]];then
+        if [[ "$namespace_status" != $(cluster)  &&  $namespace_status_iterations -eq 10 ]];then
           echo "$(namespace) creation has been Failed"
           exit 0
         fi
