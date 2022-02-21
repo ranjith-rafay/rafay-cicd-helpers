@@ -59,7 +59,7 @@ steps:
     if [ $? -eq 1 ]; then
       ${HOME}/rctl create ns -f create_ns.yaml
       sleep 5
-      cat create-ns.yaml
+      cat create_ns.yaml
       ${HOME}/rctl publish ns $(namespace) --wait
       namespace_status=" "
       namespace_status_iterations=1
