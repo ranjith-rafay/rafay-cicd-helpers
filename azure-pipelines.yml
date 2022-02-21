@@ -59,11 +59,12 @@ steps:
     if [ $? -eq 1 ]; then
       ${HOME}/rctl create ns -f create_ns.yaml
       sleep 5
-      ${HOME}/rctl publish ns $(namespace)
+      ${HOME}/rctl publish ns $(namespace) --wait
       namespace_status=" "
       namespace_status_iterations=1
       while [ "$namespace_status" != $(cluster) ];
       do
+        echo "$namespace_status"
         sleep 5  
         namespace_status=`${HOME}/rctl status namespace $(namespace) | awk '{print $10}'| grep -v "DEPLOYEDCLUSTERS" |  awk '!/^$/'`
         if [[ "$namespace_status" != $(cluster)  &&  $namespace_status_iterations -eq 10 ]];then
