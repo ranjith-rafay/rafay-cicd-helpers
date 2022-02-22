@@ -20,6 +20,7 @@ variables:
   create_ns_yaml: $(System.DefaultWorkingDirectory)/workload/helm3/manifests/rafay_create_ns.yaml
   RCTL_REST_ENDPOINT: "console.rafay.dev"
   RCTL_OPS_ENDPOINT: "ops.rafay.dev"
+  RCTL_PROFILE: "prod"
 pool:
   vmImage: 'ubuntu-18.04'
 
@@ -36,7 +37,6 @@ steps:
     export RCTL_API_KEY=$(RCTL_API_KEY)
     export RCTL_PROFILE=$(RCTL_PROFILE)
     export RCTL_API_SECRET=$(RCTL_API_SECRET)
-    export RCTL_PROJECT=$(RCTL_PROJECT)
 
     wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
     tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
