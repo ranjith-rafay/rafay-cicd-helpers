@@ -72,7 +72,7 @@ steps:
         fi
         namespace_status_iterations=$((namespace_status_iterations+1))
       done
-      echo "Succeffully plublish namespace: $(namespace)"
+      echo "Successffully published namespace: $(namespace)"
     else
       echo "Namespace $(namespace) is already exists"
     fi
